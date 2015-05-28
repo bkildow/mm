@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Contains osu_mm.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function osu_mm_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the osu_mm module.
+    case 'help.page.osu_mm':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Field for OSU media magnet') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function osu_mm_theme() {
+  $theme = [];
+
+  return $theme;
+}
