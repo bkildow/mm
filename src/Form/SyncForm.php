@@ -9,6 +9,9 @@ namespace Drupal\osu_mm\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\osu_mm\SyncService;
 
 /**
  * Class SyncForm.
@@ -16,6 +19,29 @@ use Drupal\Core\Form\FormStateInterface;
  * @package Drupal\osu_mm\Form
  */
 class SyncForm extends ConfigFormBase {
+
+  /**
+   * Drupal\osu_mm\SyncService definition.
+   *
+   * @var Drupal\osu_mm\SyncService
+   */
+  protected $syncService;
+
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    SyncService $osu_mm_sync
+  ) {
+    parent::__construct($config_factory);
+    $this->syncService = $osu_mm_sync;
+  }
+
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('osu_mm.sync')
+    );
+  }
+
 
   /**
    * {@inheritdoc}
@@ -38,6 +64,14 @@ class SyncForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('osu_mm.sync_config');
+
+
+    $categories = $this->syncService->fetch();
+    $output = var_export($categories, TRUE);
+
+    $form['sync_info'] = array(
+      '#markup' => "<pre>$output</pre>",
+    );
 
     return parent::buildForm($form, $form_state);
   }

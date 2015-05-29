@@ -1,0 +1,6 @@
+services:
+  osu_mm.sync:
+    class: Drupal\osu_mm\SyncService
+    arguments: ["@http_client"]
+
+
