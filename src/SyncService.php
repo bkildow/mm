@@ -8,6 +8,9 @@
 namespace Drupal\osu_mm;
 
 use Drupal\Core\Http\Client;
+use Drupal\Core\Config\Entity\Query;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
 
 /**
  * Class SyncService.
@@ -24,10 +27,18 @@ class SyncService {
   protected $http_client;
 
   /**
+   * Drupal\Core\Config\Entity\Query definition.
+   *
+   * @var Drupal\Core\Config\Entity\Query
+   */
+  protected $entity_query;
+
+  /**
    * Constructor.
    */
-  public function __construct(Client $http_client) {
+  public function __construct(Client $http_client, Query $entity_query) {
     $this->http_client = $http_client;
+    $this->entity_query = $entity_query;
   }
 
   /**
@@ -55,7 +66,55 @@ class SyncService {
     return $categories;
   }
 
+  /**
+   * Creates vocabularies and terms if they don't exist.
+   */
   public function sync() {
+    $categories = $this->fetch();
+    foreach ($categories as $category => $keywords) {
+
+      // Create the vocabulary if it doesn't exist.
+      $vid = 'osu_mm_' . $category;
+      $vocab = Vocabulary::load($vid);
+
+      if (!$vocab) {
+        $this->createVocabulary($vid);
+      }
+
+      $this->updateTerms($vid, $keywords);
+    }
+  }
+
+  /**
+   * Create a new vocabulary.
+   *
+   * @param string $vid
+   *   name of vocab
+   */
+  protected function createVocabulary($vid) {
+    entity_create('taxonomy_vocabulary', array(
+      'name' => ucfirst($vid) . 's (Media Magnet)',
+      'vid' => $vid,
+    ))->save();
+  }
+
+  /**
+   * Create new terms.
+   *
+   * @param string $vid
+   *   vocab id
+   * @param array $terms
+   *   array of mm objects
+   */
+  protected function updateTerms($vid, $terms) {
+    foreach ($terms as $t) {
+      $term = entity_create('taxonomy_term', array(
+        'name' => $t->display_name,
+        'vid' => $vid,
+      ));
+      $term->description->value = $t->description;
+      $term->save();
+    }
   }
 
 

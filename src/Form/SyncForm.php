@@ -70,11 +70,11 @@ class SyncForm extends ConfigFormBase {
 
 //    dpm($categories);
 
-    $output = var_export($categories, TRUE);
-
-    $form['sync_info'] = array(
-      '#markup' => "<pre>$output</pre>",
-    );
+//    $output = var_export($categories, TRUE);
+//
+//    $form['sync_info'] = array(
+//      '#markup' => "<pre>$output</pre>",
+//    );
 
     return parent::buildForm($form, $form_state);
   }
@@ -91,48 +91,12 @@ class SyncForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
-
-    $categories = $this->syncService->fetch();
-
-    foreach ($categories as $category => $keywords) {
-      $this->createVocabulary($category);
-      $this->createTerms($category, $keywords);
-    }
+    $categories = $this->syncService->sync();
 
     $this->config('osu_mm.sync_config')
       ->save();
   }
 
-  /**
-   * Create a new vocabulary.
-   *
-   * @param string $name
-   *   name of vocab
-   */
-  protected function createVocabulary($name) {
-    entity_create('taxonomy_vocabulary', array(
-      'name' => $name,
-      'vid' => $name,
-    ))->save();
-  }
 
-  /**
-   * Create new terms.
-   *
-   * @param string $vid
-   *   vocab id
-   * @param array $terms
-   *   array of mm objects
-   */
-  protected function createTerms($vid, $terms) {
-    foreach ($terms as $t) {
-      $term = entity_create('taxonomy_term', array(
-        'name' => $t->display_name,
-        'vid' => $vid,
-      ));
-      $term->description->value = $t->description;
-      $term->save();
-    }
-  }
 
 }
