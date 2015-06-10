@@ -85,6 +85,18 @@ class SyncService {
   }
 
   /**
+   * Removes all Media Magnet vocabularies.
+   */
+  public function uninstall() {
+    $vocabs = Vocabulary::loadMultiple();
+    foreach ($vocabs as $vocab) {
+      if (substr($vocab->id(), 0, 6) == 'osu_mm') {
+        $vocab->delete();
+      }
+    }
+  }
+
+  /**
    * Create a new vocabulary.
    *
    * @param string $category

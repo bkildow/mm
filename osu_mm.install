@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Implements hook_uninstall().
+ */
+function osu_mm_uninstall() {
+  $sync_service = \Drupal::service('osu_mm.sync');
+  $sync_service->uninstall();
+}
+
+/**
+ * Implements hook_install().
+ */
+function osu_mm_install() {
+  $sync_service = \Drupal::service('osu_mm.sync');
+  $sync_service->sync();
+}
