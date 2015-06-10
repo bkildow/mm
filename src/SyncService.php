@@ -9,7 +9,6 @@ namespace Drupal\osu_mm;
 
 use Drupal\Core\Http\Client;
 use Drupal\Core\Config\Entity\Query;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 
 /**
@@ -73,48 +72,82 @@ class SyncService {
     $categories = $this->fetch();
     foreach ($categories as $category => $keywords) {
 
-      // Create the vocabulary if it doesn't exist.
-      $vid = 'osu_mm_' . $category;
+      $vid = $this->getVidFromCategory($category);
       $vocab = Vocabulary::load($vid);
 
+      // Create the vocabulary if it doesn't exist.
       if (!$vocab) {
-        $this->createVocabulary($vid);
+        $this->createVocabulary($category);
       }
 
-      $this->updateTerms($vid, $keywords);
+      $this->createTerms($vid, $keywords);
     }
   }
 
   /**
    * Create a new vocabulary.
    *
-   * @param string $vid
-   *   name of vocab
+   * @param string $category
+   *   name of category
    */
-  protected function createVocabulary($vid) {
+  protected function createVocabulary($category) {
+    $vid = $this->getVidFromCategory($category);
+    $display_name = ucfirst($category) . 's (Media Magnet)';
+
     entity_create('taxonomy_vocabulary', array(
-      'name' => ucfirst($vid) . 's (Media Magnet)',
+      'name' => $display_name,
       'vid' => $vid,
     ))->save();
   }
 
   /**
-   * Create new terms.
+   * Create terms.
    *
    * @param string $vid
    *   vocab id
    * @param array $terms
    *   array of mm objects
    */
-  protected function updateTerms($vid, $terms) {
+  protected function createTerms($vid, $terms) {
     foreach ($terms as $t) {
-      $term = entity_create('taxonomy_term', array(
-        'name' => $t->display_name,
-        'vid' => $vid,
-      ));
-      $term->description->value = $t->description;
-      $term->save();
+      $tids = $this->taxonomyGetTermByName($t->display_name);
+
+      if (!$tids) {
+        $term = entity_create('taxonomy_term', array(
+          'name' => $t->display_name,
+          'vid' => $vid,
+        ));
+        $term->description->value = $t->description;
+        $term->save();
+      }
     }
+  }
+
+  /**
+   * Gets taxonomy terms by name.
+   *
+   * @param string $name
+   *   term name
+   *
+   * @return array|null
+   *   term ids
+   */
+  protected function taxonomyGetTermByName($name) {
+    $term_query = $this->entity_query->get('taxonomy_term');
+    return $term_query->condition('name', $name)->execute();
+  }
+
+  /**
+   * Returns a vocabulary id given a media magnet category.
+   *
+   * @param string $category
+   *   media magnet category
+   *
+   * @return string
+   *   The vocabulary id
+   */
+  protected function getVidFromCategory($category) {
+    return 'osu_mm_' . $category;
   }
 
 
