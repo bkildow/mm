@@ -15,7 +15,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @Block(
  *  id = "mm_widget_block",
- *  admin_label = @Translation("mm_widget_block"),
+ *  admin_label = @Translation("Media Magnet Block"),
  * )
  */
 class MmWidgetBlock extends BlockBase {
