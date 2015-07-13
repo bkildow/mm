@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains osu_mm.module.
+ * Contains mm_vocab.module.
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -10,10 +10,10 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_help().
  */
-function osu_mm_help($route_name, RouteMatchInterface $route_match) {
+function mm_vocab_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
-    // Main module help for the osu_mm module.
-    case 'help.page.osu_mm':
+    // Main module help for the mm_vocab module.
+    case 'help.page.mm_vocab':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('Field for OSU media magnet') . '</p>';
@@ -26,7 +26,7 @@ function osu_mm_help($route_name, RouteMatchInterface $route_match) {
 /**
  * Implements hook_theme().
  */
-function osu_mm_theme() {
+function mm_vocab_theme() {
   $theme = [];
 
   return $theme;

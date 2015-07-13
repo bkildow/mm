@@ -1,6 +1,6 @@
 name: OSU Media Magnet
 type: module
-description: Field for OSU media magnet
+description: Field and vocab settings for OSU media magnet
 core: 8.x
 package: OSU
 

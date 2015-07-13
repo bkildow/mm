@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Implements hook_uninstall().
+ */
+function mm_vocab_uninstall() {
+  $sync_service = \Drupal::service('mm_vocab.sync');
+  $sync_service->uninstall();
+}
+
+/**
+ * Implements hook_install().
+ */
+function mm_vocab_install() {
+  $sync_service = \Drupal::service('mm_vocab.sync');
+  $sync_service->sync();
+}

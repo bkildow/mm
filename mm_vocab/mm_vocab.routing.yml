@@ -1,0 +1,8 @@
+mm_vocab.sync_form:
+  path: '/admin/config/mm_vocab/sync'
+  defaults:
+    _form: '\Drupal\mm_vocab\Form\SyncForm'
+    _title: 'SyncForm'
+  requirements:
+    _permission: 'access administration pages'
+

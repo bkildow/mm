@@ -1,8 +1,0 @@
-osu_mm.sync_form:
-  path: '/admin/config/osu_mm/sync'
-  defaults:
-    _form: '\Drupal\osu_mm\Form\SyncForm'
-    _title: 'SyncForm'
-  requirements:
-    _permission: 'access administration pages'
-

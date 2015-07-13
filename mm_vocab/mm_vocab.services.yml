@@ -1,4 +1,4 @@
 services:
-  osu_mm.sync:
-    class: Drupal\osu_mm\SyncService
+  mm_vocab.sync:
+    class: Drupal\mm_vocab\SyncService
     arguments: ['@http_client', '@entity.query']

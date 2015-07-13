@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\osu_mm\SyncService.
+ * Contains Drupal\mm_vocab\SyncService.
  */
 
-namespace Drupal\osu_mm;
+namespace Drupal\mm_vocab;
 
 use Drupal\Core\Http\Client;
 use Drupal\Core\Config\Entity\Query;
@@ -14,7 +14,7 @@ use Drupal\taxonomy\Entity\Vocabulary;
 /**
  * Class SyncService.
  *
- * @package Drupal\osu_mm
+ * @package Drupal\mm_vocab
  */
 class SyncService {
 
@@ -90,7 +90,7 @@ class SyncService {
   public function uninstall() {
     $vocabs = Vocabulary::loadMultiple();
     foreach ($vocabs as $vocab) {
-      if (substr($vocab->id(), 0, 6) == 'osu_mm') {
+      if (substr($vocab->id(), 0, 6) == 'mm_vocab') {
         $vocab->delete();
       }
     }
@@ -159,7 +159,7 @@ class SyncService {
    *   The vocabulary id
    */
   protected function getVidFromCategory($category) {
-    return 'osu_mm_' . $category;
+    return 'mm_vocab_' . $category;
   }
 
 

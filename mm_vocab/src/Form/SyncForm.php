@@ -2,43 +2,43 @@
 
 /**
  * @file
- * Contains Drupal\osu_mm\Form\SyncForm.
+ * Contains Drupal\mm_vocab\Form\SyncForm.
  */
 
-namespace Drupal\osu_mm\Form;
+namespace Drupal\mm_vocab\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\osu_mm\SyncService;
+use Drupal\mm_vocab\SyncService;
 
 /**
  * Class SyncForm.
  *
- * @package Drupal\osu_mm\Form
+ * @package Drupal\mm_vocab\Form
  */
 class SyncForm extends ConfigFormBase {
 
   /**
-   * Drupal\osu_mm\SyncService definition.
+   * Drupal\mm_vocab\SyncService definition.
    *
-   * @var Drupal\osu_mm\SyncService
+   * @var Drupal\mm_vocab\SyncService
    */
   protected $syncService;
 
   public function __construct(
     ConfigFactoryInterface $config_factory,
-    SyncService $osu_mm_sync
+    SyncService $mm_vocab_sync
   ) {
     parent::__construct($config_factory);
-    $this->syncService = $osu_mm_sync;
+    $this->syncService = $mm_vocab_sync;
   }
 
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('osu_mm.sync')
+      $container->get('mm_vocab.sync')
     );
   }
 
@@ -48,7 +48,7 @@ class SyncForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'osu_mm.sync_config'
+      'mm_vocab.sync_config'
     ];
   }
 
@@ -63,7 +63,7 @@ class SyncForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('osu_mm.sync_config');
+    $config = $this->config('mm_vocab.sync_config');
 
 
     $categories = $this->syncService->fetch();
@@ -93,7 +93,7 @@ class SyncForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
     $categories = $this->syncService->sync();
 
-    $this->config('osu_mm.sync_config')
+    $this->config('mm_vocab.sync_config')
       ->save();
   }
 
