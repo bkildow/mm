@@ -2,3 +2,7 @@ mm-widgets:
   version: 1.x
   js:
     js/mm_widgets.js: {}
+    js/moment.js: {}
+    js/mustache.min.js: {}
+  dependencies:
+      - core/jquery
