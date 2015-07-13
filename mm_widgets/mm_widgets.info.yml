@@ -1,0 +1,5 @@
+name: Media Magnet Widgets
+type: module
+description: Front-end presentation widgets for Media Magnet
+core: 8.x
+package: OSU
