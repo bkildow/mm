@@ -48,13 +48,17 @@ class MmWidgetBlock extends BlockBase {
     $this->configuration['mm_widgets_items_template'] = $form_state->getValue('mm_widgets_items_template');
   }
 
+
   /**
    * {@inheritdoc}
    */
   public function build() {
-    $build = [];
-    $build['mm_widget_block_mm_widgets_items_url']['#markup'] = '<p>' . $this->configuration['mm_widgets_items_url'] . '</p>';
-    $build['mm_widget_block_mm_widgets_items_template']['#markup'] = '<p>' . $this->configuration['mm_widgets_items_template'] . '</p>';
+    $build = array(
+      '#theme'        => 'mm_widgets_block',
+      '#url'          => $this->configuration['mm_widgets_items_url'],
+      '#template'     => $this->configuration['mm_widgets_items_template'],
+      '#machineName'  => $this->getMachineNameSuggestion(),
+    );
 
     return $build;
   }
