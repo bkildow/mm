@@ -7,6 +7,7 @@
 
 namespace Drupal\mm_widgets\Plugin\Block;
 
+use Drupal\Core\Annotation\Action;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -29,14 +30,14 @@ class MmWidgetBlock extends BlockBase {
       '#title' => $this->t('URL'),
       '#required' => TRUE,
       '#description' => $this->t('Media Magnet items API URL'),
-      '#default_value' => isset($this->configuration['mm_widgets_items_url']) ? $this->configuration['mm_widgets_items_url'] : '',
+      '#default_value' => isset($this->configuration['mm_widgets_items_url']) ? $this->configuration['mm_widgets_items_url'] : 'https://mediamagnet.osu.edu/api/v1/items.json',
     );
     $form['mm_widgets_items_template'] = array(
       '#type' => 'textarea',
       '#title' => $this->t('Item template'),
       '#required' => TRUE,
       '#description' => $this->t('handlebars template'),
-      '#default_value' => isset($this->configuration['mm_widgets_items_template']) ? $this->configuration['mm_widgets_items_template'] : '',
+      '#default_value' => isset($this->configuration['mm_widgets_items_template']) ? $this->configuration['mm_widgets_items_template'] : $this->handlebarsTemplate(),
     );
 
     return $form;
@@ -68,6 +69,30 @@ class MmWidgetBlock extends BlockBase {
     );
 
     return $build;
+  }
+
+  /**
+   * This is the handlebars template that gets store in the configuration.
+   *
+   * @return string
+   *   handlebars template
+   */
+  protected function handlebarsTemplate() {
+    $default = <<<EOD
+<article class="item {{channel.machine_type_name}}">
+  <div class="content">
+    <span class="excerpt"><a href="{{link}}">{{{excerpt}}}</a></span>
+    <br />
+  </div>
+  <div class="network">
+    <div class="attribution">
+      {{formatted_published_at}} via <a href="{{channel.url}}">{{channel.name}}</a>.
+    </div>
+  </div>
+</article>
+EOD;
+
+    return $default;
   }
 
 }
