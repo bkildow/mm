@@ -58,6 +58,11 @@ class MmWidgetBlock extends BlockBase {
       '#url'          => $this->configuration['mm_widgets_items_url'],
       '#template'     => $this->configuration['mm_widgets_items_template'],
       '#machineName'  => $this->getMachineNameSuggestion(),
+      '#attached' => array(
+        'library' => array(
+          'mm_widgets/mm-widgets',
+        )
+      ),
     );
 
     return $build;
