@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function mm_widgets_theme() {
+  $theme = array(
+    'mm_widgets_block' => array(),
+  );
+  return $theme;
+}
