@@ -1,0 +1,18 @@
+uuid: 11e347c5-8867-49ec-8900-c30e5e14393c
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Media Magnet Example'
+type: media_magnet_example
+description: 'This is an example content type with a media magnet field.'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

@@ -7,9 +7,9 @@ function mm_widgets_theme() {
   $theme = array(
     'mm_widgets_block' => array(
       'variables' => array(
-        'url' => null,
-        'template' => null,
-        'machineName' => null,
+        'url' => NULL,
+        'template' => NULL,
+        'machineName' => NULL,
       ),
     ),
   );

@@ -1,0 +1,7 @@
+name: Media Magnet Content Example
+type: module
+description: Media Magnet Content Example
+core: 8.x
+package: OSU
+dependencies:
+  - mm_vocab

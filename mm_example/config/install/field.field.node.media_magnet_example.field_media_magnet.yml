@@ -1,0 +1,32 @@
+uuid: 65c006db-95fa-4042-9c5b-916fb1939b23
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_media_magnet
+    - node.type.media_magnet_example
+  module:
+    - entity_reference
+id: node.media_magnet_example.field_media_magnet
+field_name: field_media_magnet
+entity_type: node
+bundle: media_magnet_example
+label: field_media_magnet
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mm_vocab_audience: mm_vocab_audience
+      mm_vocab_college: mm_vocab_college
+      mm_vocab_format: mm_vocab_format
+      mm_vocab_location: mm_vocab_location
+      mm_vocab_topic: mm_vocab_topic
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference
