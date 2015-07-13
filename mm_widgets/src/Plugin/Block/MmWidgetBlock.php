@@ -27,12 +27,14 @@ class MmWidgetBlock extends BlockBase {
     $form['mm_widgets_items_url'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('URL'),
+      '#required' => TRUE,
       '#description' => $this->t('Media Magnet items API URL'),
       '#default_value' => isset($this->configuration['mm_widgets_items_url']) ? $this->configuration['mm_widgets_items_url'] : '',
     );
     $form['mm_widgets_items_template'] = array(
       '#type' => 'textarea',
       '#title' => $this->t('Item template'),
+      '#required' => TRUE,
       '#description' => $this->t('handlebars template'),
       '#default_value' => isset($this->configuration['mm_widgets_items_template']) ? $this->configuration['mm_widgets_items_template'] : '',
     );
