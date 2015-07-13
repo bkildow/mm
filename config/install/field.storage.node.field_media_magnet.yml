@@ -1,0 +1,19 @@
+uuid: dddc9e1f-cdd2-40ee-8d00-ad1dba6f5e2d
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_reference
+    - node
+id: node.field_media_magnet
+field_name: field_media_magnet
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: entity_reference
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
